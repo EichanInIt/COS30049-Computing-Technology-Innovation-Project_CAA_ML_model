@@ -1,18 +1,9 @@
 import pandas as pd
 import numpy as np
 import os
-import matplotlib.pyplot as plt
-from sklearn.preprocessing import OneHotEncoder, StandardScaler  
-import seaborn as sns
 
-# Load the data
 dropped_data = os.path.join("dataset", "Cleaned_flight_data.csv")
 dropped_data = pd.read_csv(dropped_data)
-
-# Checking total NA
-# data.isna().sum()
-
-# data.describe()
 
 # Adjust delay calculations for edge cases
 def calculate_departure_delay(departure_time, scheduled_departure):
@@ -29,7 +20,6 @@ def calculate_arrival_delay(arrival_time, scheduled_arrival):
     else:
         return arrival_time - scheduled_arrival
 
-# Feature Engineering
 # AIR_TIME = (WHEELS_OFF - WHEELS_ON) + (DESTINATION_TZ - SOURCE_TZ) * 60
 dropped_data.loc[:, 'AIR_TIME'] = (dropped_data['WHEELS_ON'] - dropped_data['WHEELS_OFF']) + ((dropped_data['ORIGIN_AIRPORT_TZ'] - dropped_data['DESTINATION_AIRPORT_TZ']) * 60)
 
@@ -48,31 +38,3 @@ dropped_data.loc[:, 'ARRIVAL_DELAY'] = dropped_data.apply(
     axis=1
 )
 
-# Define which columns to use for encoding and scaling
-categorical_cols = ["MONTH", "DAY_OF_WEEK", 'AIRLINE', 'ORIGIN_AIRPORT', 'DESTINATION_AIRPORT']
-numerical_cols = ["SCHEDULED_DEPARTURE", "DEPARTURE_TIME", "DEPARTURE_DELAY", "TAXI_OUT", "WHEELS_OFF",
-                  "SCHEDULED_TIME", "ELAPSED_TIME", "AIR_TIME", "DISTANCE", "TAXI_IN", "SCHEDULED_ARRIVAL"]
-
-# Drop unnecessary columns (if needed)
-dropped_data = dropped_data[categorical_cols + numerical_cols + ["ARRIVAL_DELAY"]]
-
-# Apply StandardScaler to numerical columns
-scaler = StandardScaler()
-numerical_scaled = pd.DataFrame(scaler.fit_transform(dropped_data[numerical_cols]), columns=numerical_cols)
-
-# Apply OneHotEncoder to categorical columns
-encoder = OneHotEncoder(sparse_output=False, drop='first')
-categorical_encoded = pd.DataFrame(encoder.fit_transform(dropped_data[categorical_cols]),
-                                   columns=encoder.get_feature_names_out(categorical_cols))
-
-# Combine scaled numerical data, encoded categorical data, and target (ARRIVAL_DELAY)
-final_data = pd.concat([numerical_scaled, categorical_encoded, dropped_data["ARRIVAL_DELAY"].reset_index(drop=True)], axis=1)
-
-# Now `final_data` is ready for modeling
-final_data.describe()
-
-# Optionally, you can save the processed data to a new CSV file
-# final_data.to_csv("Processed_flight_data.csv", index=False)
-
-# Display the first few rows of the processed dataset
-print(final_data.head())
