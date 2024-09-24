@@ -47,6 +47,11 @@ columns.insert(destination_airport_index + 1, columns.pop(columns.index('DESTINA
 # Reorder the DataFrame with the new column order
 dropped_flight_data = dropped_flight_data[columns]
 
+#dropping AIR_SYSTEM_DELAY,...
+column_to_drop = ["AIR_SYSTEM_DELAY", "SECURITY_DELAY", "AIRLINE_DELAY", "LATE_AIRCRAFT_DELAY", "WEATHER_DELAY", "YEAR"]
+dropped_flight_data = dropped_flight_data.drop(columns= column_to_drop)
+
+
 # Save the updated dataframe
 dropped_flight_data.to_csv("dataset/Cleaned_flight_data.csv", index=False)
 
