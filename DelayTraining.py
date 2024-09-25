@@ -30,7 +30,7 @@ dropped_data = pd.read_csv(dropped_data)
 
 # Feature Engineering
 # AIR_TIME = (WHEELS_OFF - WHEELS_ON) + (DESTINATION_TZ - SOURCE_TZ) * 60
-dropped_data.loc[:, 'AIR_TIME'] = (dropped_data['WHEELS_ON'] - dropped_data['WHEELS_OFF']) + ((dropped_data['ORIGIN_AIRPORT_TZ'] - dropped_data['DESTINATION_AIRPORT_TZ']) * 60)
+#dropped_data.loc[:, 'AIR_TIME'] = (dropped_data['WHEELS_ON'] - dropped_data['WHEELS_OFF']) + ((dropped_data['ORIGIN_AIRPORT_TZ'] - dropped_data['DESTINATION_AIRPORT_TZ']) * 60)
 
 # # Calculate DEPARTURE_DELAY using the custom function to handle edge cases
 # dropped_data.loc[:, 'DEPARTURE_DELAY'] = dropped_data.apply(
@@ -54,11 +54,8 @@ dropped_data.loc[:, 'AIR_TIME'] = (dropped_data['WHEELS_ON'] - dropped_data['WHE
 start_time = time.time()
 
 # Define which columns to use for encoding and scaling
-categorical_cols = []
-numerical_cols = []
-
-# Drop unnecessary columns (if needed)
-dropped_data = dropped_data[categorical_cols + numerical_cols + ["ARRIVAL_DELAY"]]
+categorical_cols = ["MONTH", "DAY", "DAY_OF_WEEK", "ORIGIN_AIRPORT", "DESTINATION_AIRPORT"]
+numerical_cols = ["SCHEDULED_DEPARTURE", "DEPARTURE_DELAY", "TAXI_OUT", "WHEELS_OFF", "AIR_TIME", "DISTANCE", "WHEELS_ON", "TAXI_IN", "SCHEDULED_ARRIVAL", "ARRIVAL_DELAY"]
 
 # Apply StandardScaler to numerical columns
 scaler = StandardScaler()
@@ -71,7 +68,6 @@ categorical_encoded = pd.DataFrame(encoder.fit_transform(dropped_data[categorica
 
 # Combine scaled numerical data, encoded categorical data, and target (ARRIVAL_DELAY)
 final_data = pd.concat([numerical_scaled, categorical_encoded, dropped_data["ARRIVAL_DELAY"].reset_index(drop=True)], axis=1)
-print(final_data.describe())
 
 # Measure end time
 end_time = time.time()
