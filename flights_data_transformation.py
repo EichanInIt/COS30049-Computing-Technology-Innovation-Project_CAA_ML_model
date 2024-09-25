@@ -58,4 +58,4 @@ dropped_flight_data = dropped_flight_data.sample(frac=0.3, random_state=108).res
 dropped_flight_data.to_csv("dataset/2015-Cleaned_flight_data.csv", index=False)
 
 # Display the first few rows to verfy
-print(dropped_flight_data.describe)
+print(dropped_flight_data.describe())
