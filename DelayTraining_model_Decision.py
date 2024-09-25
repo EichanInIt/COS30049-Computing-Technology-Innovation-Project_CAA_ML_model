@@ -75,7 +75,7 @@ running_time = end_time - start_time
 print(f"Total encoding: {running_time:.2f} seconds")
 
 
-# #Optionally, you can save the processed data to a new CSV file
+# #Optionally, saving the processed data to a new CSV file
 # final_data.to_csv("Processed_flight_data.csv", index=False)
 
 # #Display the first few rows of the processed dataset
