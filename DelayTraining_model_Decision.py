@@ -112,3 +112,29 @@ with open("model/2015-Flight_lazypredict_models.pkl", "wb") as f:
 
 # Print the performance of the models directly to the terminal
 print(models)
+
+
+# Total encoding: 2.75 seconds
+# Start trainning
+# 100%|████████████████████████████████████████████████████████████████████████████| 42/42 [1:51:41<00:00, 159.56s/it]       
+# Total running time: 6702.01 seconds
+#                                       Adjusted R-Squared                     R-Squared              RMSE  Time Taken
+# Model
+# MLPRegressor                                        1.00                          1.00              1.90     2297.75
+# TransformedTargetRegressor                          0.98                          0.98              3.84       14.56       
+# LinearRegression                                    0.98                          0.98              3.84       26.92       
+# RidgeCV                                             0.98                          0.98              3.84       36.21       
+# Ridge                                               0.98                          0.98              3.84        9.26       
+# Lars                                                0.98                          0.98              4.47       17.45       
+# OrthogonalMatchingPursuit                           0.97                          0.97              5.43       15.22       
+# RandomForestRegressor                               0.96                          0.96              5.91     1410.50       
+# BaggingRegressor                                    0.96                          0.96              6.19      152.71       
+# ExtraTreesRegressor                                 0.96                          0.96              6.21     1973.25       
+# DecisionTreeRegressor                               0.92                          0.92              8.32       26.55       
+# ExtraTreeRegressor                                  0.91                          0.91              8.84       27.59       
+# ElasticNet                                          0.65                          0.65             11.93        7.24       
+# LassoLars                                           0.46                          0.47              7.34       13.25       
+# Lasso                                               0.46                          0.47              7.34       13.54       
+# KNeighborsRegressor                                 0.29                          0.30             24.78      380.92       
+# DummyRegressor                                     -0.01                         -0.00             29.65        4.70       
+# RANSACRegressor            -1339924374429701179965440.00 -1324932679539264449413120.00 34132917978127.83       82.21       
