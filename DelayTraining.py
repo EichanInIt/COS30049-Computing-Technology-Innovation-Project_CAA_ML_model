@@ -1,18 +1,17 @@
 import pandas as pd
-import numpy as np
 import os
-import matplotlib.pyplot as plt
 from sklearn.preprocessing import OneHotEncoder, StandardScaler  
-import seaborn as sns
+from sklearn.model_selection import train_test_split
+from lazypredict import LazyRegressor
+import time
+import pickle
 
 # Load the data
-dropped_data = os.path.join("dataset", "Cleaned_flight_data.csv")
+dropped_data = os.path.join("dataset", "2015-Cleaned_flight_data.csv")
 dropped_data = pd.read_csv(dropped_data)
 
-# Checking total NA
-# data.isna().sum()
-
-# data.describe()
+# Measure start time
+start_time = time.time()
 
 # Adjust delay calculations for edge cases
 def calculate_departure_delay(departure_time, scheduled_departure):
@@ -48,6 +47,15 @@ dropped_data.loc[:, 'ARRIVAL_DELAY'] = dropped_data.apply(
     axis=1
 )
 
+# Measure end time
+end_time = time.time()
+running_time = end_time - start_time
+print(f"Total Feature engineering: {running_time:.2f} seconds")
+
+
+# Measure start time
+start_time = time.time()
+
 # Define which columns to use for encoding and scaling
 categorical_cols = ["MONTH", "DAY_OF_WEEK", 'AIRLINE', 'ORIGIN_AIRPORT', 'DESTINATION_AIRPORT']
 numerical_cols = ["SCHEDULED_DEPARTURE", "DEPARTURE_TIME", "DEPARTURE_DELAY", "TAXI_OUT", "WHEELS_OFF",
@@ -68,11 +76,46 @@ categorical_encoded = pd.DataFrame(encoder.fit_transform(dropped_data[categorica
 # Combine scaled numerical data, encoded categorical data, and target (ARRIVAL_DELAY)
 final_data = pd.concat([numerical_scaled, categorical_encoded, dropped_data["ARRIVAL_DELAY"].reset_index(drop=True)], axis=1)
 
-# Now `final_data` is ready for modeling
-final_data.describe()
+# Measure end time
+end_time = time.time()
+running_time = end_time - start_time
+print(f"Total encoding: {running_time:.2f} seconds")
+
 
 # Optionally, you can save the processed data to a new CSV file
 # final_data.to_csv("Processed_flight_data.csv", index=False)
 
 # Display the first few rows of the processed dataset
-print(final_data.head())
+#print(final_data.head())
+
+# Split data into features and target
+x = final_data.drop(columns="ARRIVAL_DELAY")  # Features
+y = final_data["ARRIVAL_DELAY"]  # Target
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=108)
+
+# Initialize LazyRegressor
+reg = LazyRegressor(verbose=0, ignore_warnings=True, custom_metric=None)
+
+# Measure start time
+start_time = time.time()
+
+# Fit and evaluate multiple regression models
+print("Start trainning")
+models, predictions = reg.fit(X_train, X_test, y_train, y_test)
+
+# Measure end time
+end_time = time.time()
+
+# Calculate running time
+running_time = end_time - start_time
+print(f"Total running time: {running_time:.2f} seconds")
+
+
+# Save the models and predictions to a pickle file
+with open("model/2015-Flight_lazypredict_models.pkl", "wb") as f:
+    pickle.dump((models, predictions), f)
+
+# Print the performance of the models directly to the terminal
+print(models)

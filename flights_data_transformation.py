@@ -47,13 +47,15 @@ columns.insert(destination_airport_index + 1, columns.pop(columns.index('DESTINA
 # Reorder the DataFrame with the new column order
 dropped_flight_data = dropped_flight_data[columns]
 
-#dropping AIR_SYSTEM_DELAY,...
-column_to_drop = ["AIR_SYSTEM_DELAY", "SECURITY_DELAY", "AIRLINE_DELAY", "LATE_AIRCRAFT_DELAY", "WEATHER_DELAY", "YEAR"]
+#dropping redundant columns
+column_to_drop = ["AIR_SYSTEM_DELAY", "SECURITY_DELAY", "AIRLINE_DELAY", "LATE_AIRCRAFT_DELAY", "WEATHER_DELAY", "YEAR", "ELAPSED_TIME", "SCHEDULED_TIME", "DEPARTURE_TIME", "ARRIVAL_TIME"]
 dropped_flight_data = dropped_flight_data.drop(columns= column_to_drop)
 
+# Randomly drop half of the rows
+dropped_flight_data = dropped_flight_data.sample(frac=0.3, random_state=108).reset_index(drop=True)
 
 # Save the updated dataframe
-dropped_flight_data.to_csv("dataset/Cleaned_flight_data.csv", index=False)
+dropped_flight_data.to_csv("dataset/2015-Cleaned_flight_data.csv", index=False)
 
-# Display the first few rows to verify
-print(dropped_flight_data[['ORIGIN_AIRPORT', 'ORIGIN_AIRPORT_TZ', 'DESTINATION_AIRPORT', 'DESTINATION_AIRPORT_TZ']].head())
+# Display the first few rows to verfy
+print(dropped_flight_data.describe)
