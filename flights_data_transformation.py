@@ -48,7 +48,7 @@ columns.insert(destination_airport_index + 1, columns.pop(columns.index('DESTINA
 dropped_flight_data = dropped_flight_data[columns]
 
 #dropping redundant columns
-column_to_drop = ["AIR_SYSTEM_DELAY", "SECURITY_DELAY", "AIRLINE_DELAY", "LATE_AIRCRAFT_DELAY", "WEATHER_DELAY", "YEAR", "ELAPSED_TIME", "SCHEDULED_TIME", "DEPARTURE_TIME", "ARRIVAL_TIME"]
+column_to_drop = ["AIR_SYSTEM_DELAY", "SECURITY_DELAY", "AIRLINE_DELAY", "LATE_AIRCRAFT_DELAY", "WEATHER_DELAY", "YEAR", "ELAPSED_TIME", "SCHEDULED_TIME" , "DEPARTURE_TIME", "ARRIVAL_TIME", "FLIGHT_NUMBER", "AIRLINE", "ORIGIN_AIRPORT_TZ", "DESTINATION_AIRPORT_TZ"]
 dropped_flight_data = dropped_flight_data.drop(columns= column_to_drop)
 
 # Randomly drop half of the rows
