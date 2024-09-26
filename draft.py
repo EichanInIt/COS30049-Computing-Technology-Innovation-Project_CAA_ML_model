@@ -1,16 +1,46 @@
 import pandas as pd
-import os
-from sklearn.preprocessing import OneHotEncoder, StandardScaler  
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
-import time
-import pickle
 import numpy as np
+import os
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.model_selection import train_test_split
 
 # Load the data
-dropped_data = os.path.join("dataset", "2015-Cleaned_flight_data.csv")
+airports_data = os.path.join("dataset", "airports_with_utc_offsets.csv")
+airports_data = pd.read_csv(airports_data)
+
+dropped_data = os.path.join("dataset", "flights.csv")
 dropped_data = pd.read_csv(dropped_data)
+
+
+# Create a mapping from IATA_CODE to UTC_OFFSET
+airport_timezone_mapping = airports_data.set_index('IATA_CODE')['UTC_OFFSET'].to_dict()
+
+# Create ORIGIN_AIRPORT_TZ and DESTINATION_AIRPORT_TZ columns by mapping IATA_CODE from ORIGIN_AIRPORT and DESTINATION_AIRPORT
+dropped_data['ORIGIN_AIRPORT_TZ'] = dropped_data['ORIGIN_AIRPORT'].map(airport_timezone_mapping)
+dropped_data['DESTINATION_AIRPORT_TZ'] = dropped_data['DESTINATION_AIRPORT'].map(airport_timezone_mapping)
+
+# Adjust delay calculations for edge cases
+def calculate_departure_delay(departure_time, scheduled_departure):
+    if departure_time > 1300 and scheduled_departure < 300:
+        return (departure_time - 1440) - scheduled_departure
+    else:
+        return departure_time - scheduled_departure
+
+def calculate_arrival_delay(arrival_time, scheduled_arrival):
+    if arrival_time < 300 and scheduled_arrival > 1300:
+        return arrival_time + 1440 - scheduled_arrival
+    else:
+        return arrival_time - scheduled_arrival
+
+# AIR_TIME = (WHEELS_OFF - WHEELS_ON) + (DESTINATION_TZ - SOURCE_TZ) * 60
+dropped_data.loc[:, 'AIR_TIME'] = (dropped_data['WHEELS_ON'] - dropped_data['WHEELS_OFF']) + ((dropped_data['ORIGIN_AIRPORT_TZ'] - dropped_data['DESTINATION_AIRPORT_TZ']) * 60)
+
+# ELAPSED_TIME = AIR_TIME + TAXI_OUT + TAXI_IN
+dropped_data.loc[:, 'ELAPSED_TIME'] = dropped_data['AIR_TIME'] + dropped_data['TAXI_OUT'] + dropped_data['TAXI_IN']
+
+# Calculate DEPARTURE_DELAY and ARRIVAL_DELAY using the custom functions
+dropped_data.loc[:, 'DEPARTURE_DELAY'] = dropped_data.apply(lambda row: calculate_departure_delay(row['DEPARTURE_TIME'], row['SCHEDULED_DEPARTURE']), axis=1)
+dropped_data.loc[:, 'ARRIVAL_DELAY'] = dropped_data.apply(lambda row: calculate_arrival_delay(row['ARRIVAL_TIME'], row['SCHEDULED_ARRIVAL']), axis=1)
 
 # Measure start time
 start_time = time.time()
