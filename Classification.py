@@ -8,20 +8,28 @@ from sklearn.metrics import accuracy_score, classification_report
 from imblearn.under_sampling import RandomUnderSampler
 from collections import Counter
 import pickle
+from ydata_profiling import ProfileReport
 
 # Load the data
-dropped_data = os.path.join("dataset", "2015-Cleaned_flight_data.csv")
-dropped_data = pd.read_csv(dropped_data)
+dropped_data_path = os.path.join("dataset", "2015-Cleaned_flight_data_with_delay_rating.csv")
+dropped_data = pd.read_csv(dropped_data_path)
 
-# Define a function to classify delay
-def classify_delay(delay):
-    if delay <= 0:
-        return 'On Time'
-    else:
-        return 'Delayed'
+# # Define a function to classify delay
+# def classify_delay(delay):
+#     if delay <= 0:
+#         return 'On Time'
+#     else:
+#         return 'Delayed'
 
-# Apply the function to create a new column 'DELAY_RATING'
-dropped_data['DELAY_RATING'] = dropped_data['ARRIVAL_DELAY'].apply(classify_delay)
+# # Apply the function to create a new column 'DELAY_RATING'
+# dropped_data['DELAY_RATING'] = dropped_data['ARRIVAL_DELAY'].apply(classify_delay)
+
+# # Save the updated DataFrame with the new 'DELAY_RATING' column to a CSV file
+# dropped_data.to_csv("2015-Cleaned_flight_data_with_delay_rating.csv", index=False)
+
+# # Generate a profiling report with ydata-profiling
+# profile = ProfileReport(dropped_data, title="Flight Data Profiling Report", explorative=True)
+# profile.to_file("clf_flight_data_profile_report.html")
 
 # Define which columns to use for encoding and scaling
 categorical_cols = ["MONTH", "DAY", "DAY_OF_WEEK", "ORIGIN_AIRPORT", "DESTINATION_AIRPORT"]
