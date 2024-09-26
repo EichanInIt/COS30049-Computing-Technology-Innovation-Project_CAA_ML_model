@@ -63,7 +63,7 @@ X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_
 # Check the original class distribution
 print(f"Original class distribution: {Counter(Y_train)}")
 
-# Apply undersampling to reduce the "On Time" class (class 0) to match class 1's size
+# Apply undersampling to reduce the "On Time" class (class 1) to match class 0's size
 undersample = RandomUnderSampler(sampling_strategy={1: 101688}, random_state=108)
 X_train_resampled, Y_train_resampled = undersample.fit_resample(X_train, Y_train)
 
