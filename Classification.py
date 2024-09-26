@@ -64,7 +64,7 @@ X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_
 print(f"Original class distribution: {Counter(Y_train)}")
 
 # Apply undersampling to reduce the "On Time" class (class 0) to match class 1's size
-undersample = RandomUnderSampler(sampling_strategy={1: 80000, 0: 80000}, random_state=108)
+undersample = RandomUnderSampler(sampling_strategy={1: 101688}, random_state=108)
 X_train_resampled, Y_train_resampled = undersample.fit_resample(X_train, Y_train)
 
 # Check the new class distribution after resampling
@@ -107,8 +107,8 @@ accuracy = accuracy_score(Y_test, Y_pred)
 print(f"Accuracy: {accuracy:.4f}")
 
 # Original class distribution: Counter({1: 139632, 0: 101688})
-# Resampled class distribution: Counter({0: 80000, 1: 80000})
-# Accuracy: 0.8474
+# Resampled class distribution: Counter({0: 101688, 1: 101688})
+# Accuracy: 0.8479
 #               precision    recall  f1-score   support
 
 #      Delayed       0.84      0.79      0.81     25493
@@ -118,32 +118,8 @@ print(f"Accuracy: {accuracy:.4f}")
 #    macro avg       0.85      0.84      0.84     60331
 # weighted avg       0.85      0.85      0.85     60331
 
-# Model saved as random_forest_model.pkl
-
-# Original class distribution: Counter({1: 139632, 0: 101688})
-# Resampled class distribution: Counter({0: 101688, 1: 80000})
-# Model saved as random_forest_model.pkl
-# Accuracy: 0.8485
-#               precision    recall  f1-score   support
-
-#      Delayed       0.84      0.80      0.82     25493
-#      On Time       0.86      0.89      0.87     34838
-
-#     accuracy                           0.85     60331
-#    macro avg       0.85      0.84      0.84     60331
-# weighted avg       0.85      0.85      0.85     60331
-
-# Original class distribution: Counter({1: 139632, 0: 101688})
-# Resampled class distribution: Counter({1: 150000, 0: 33515})
-# Accuracy: 0.8487
-#               precision    recall  f1-score   support
-
-#      Delayed       0.85      0.79      0.81     25493
-#      On Time       0.85      0.89      0.87     34838
-
-#     accuracy                           0.85     60331
-#    macro avg       0.85      0.84      0.84     60331
-# weighted avg       0.85      0.85      0.85     60331
+# Model saved as rfclassifier_model.pkl
+# Accuracy: 0.8479
 
 # #GridSearchCV
 # # Initialize the RandomForestClassifier
