@@ -70,13 +70,13 @@ X_train_resampled, Y_train_resampled = undersample.fit_resample(X_train, Y_train
 # Check the new class distribution after resampling
 print(f"Resampled class distribution: {Counter(Y_train_resampled)}")
 
-# Implement RandomForestClassifier with class_weight='balanced'
+# Implement RandomForestClassifier with optimized parameters
 rf_model = RandomForestClassifier(
     n_estimators=100,
     max_depth=10,
     min_samples_split=10,
     min_samples_leaf=5,
-    class_weight='balanced',  # Adjust class weights
+    class_weight='balanced', 
     random_state=108
 )
 
@@ -101,10 +101,6 @@ print(f"Model saved as {model_filename}")
 
 # Predict on the test data
 Y_pred = rf_model.predict(X_test)
-
-# Evaluate the model's performance
-accuracy = accuracy_score(Y_test, Y_pred)
-print(f"Accuracy: {accuracy:.4f}")
 
 # Original class distribution: Counter({1: 139632, 0: 101688})
 # Resampled class distribution: Counter({0: 101688, 1: 101688})
@@ -150,13 +146,5 @@ print(f"Accuracy: {accuracy:.4f}")
 # print(f"Best Parameters Combination: {grid_search.best_params_}")
 
 # Fitting 3 folds for each of 81 candidates, totalling 243 fits
-# Best Parameters: {'max_depth': 10, 'min_samples_leaf': 5, 'min_samples_split': 5, 'n_estimators': 100}
-# Accuracy: 0.8179
-#               precision    recall  f1-score   support
+# Best Parameters: {'max_depth': 10, 'min_samples_leaf': 5, 'min_samples_split': 10, 'n_estimators': 100}
 
-#      Delayed       0.96      0.59      0.73     25493
-#      On Time       0.77      0.98      0.86     34838
-
-#     accuracy                           0.82     60331
-#    macro avg       0.87      0.79      0.80     60331
-# weighted avg       0.85      0.82      0.81     60331
