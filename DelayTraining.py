@@ -46,10 +46,6 @@ print(f"Total encoding: {running_time:.2f} seconds")
 x = final_data.drop(columns=["ARRIVAL_DELAY"])  # Features
 y = final_data["ARRIVAL_DELAY"]  # Target
 
-# Split data into features and target
-x = final_data.drop(columns=["ARRIVAL_DELAY"])  # Features
-y = final_data["ARRIVAL_DELAY"]  # Target
-
 X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=108)
 
 # Initialize the Linear Regression model
@@ -84,3 +80,10 @@ with open("model/2015-LinearRegression_FlightDelay.pkl", "wb") as f:
     pickle.dump(model, f)
 
 print("Model saved as '2015-LinearRegression_FlightDelay.pkl'")
+
+# Total encoding: 1.53 seconds
+# Total training time: 10.47 seconds
+# R-squared (R²): 0.98
+# Mean Absolute Error (MAE): 2.11
+# Mean Squared Error (MSE): 14.78
+# Model saved as '2015-LinearRegression_FlightDelay.pkl'
