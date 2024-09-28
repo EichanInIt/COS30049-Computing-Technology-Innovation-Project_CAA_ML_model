@@ -80,3 +80,10 @@ with open("model/2015-LinearRegression_FlightDelay.pkl", "wb") as f:
     pickle.dump(model, f)
 
 print("Model saved as '2015-LinearRegression_FlightDelay.pkl'")
+
+# Total encoding: 1.53 seconds
+# Total training time: 10.47 seconds
+# R-squared (R²): 0.98
+# Mean Absolute Error (MAE): 2.11
+# Mean Squared Error (MSE): 14.78
+# Model saved as '2015-LinearRegression_FlightDelay.pkl'

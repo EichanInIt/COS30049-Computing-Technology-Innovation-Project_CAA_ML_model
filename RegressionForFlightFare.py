@@ -41,13 +41,13 @@ Y = data['price_aud']
 # Split data into training and testing sets
 X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=108)
 
-# Initialize the RandomForestRegressor with optimized parameters for size reduction
+# Initialize the RandomForestRegressor with optimized parameters
 model = RandomForestRegressor(
-    n_estimators=100,          # Reduced number of trees to 50
+    n_estimators=100,          
     criterion="squared_error",
     min_samples_split=5,
     min_samples_leaf=1,
-    max_depth=10,             # Limit the depth of the trees to 10
+    max_depth=10,             
     random_state=108
 )
 
@@ -125,6 +125,12 @@ plt.close()
 print("\nVisualization plots have been saved as PNG files.")
 
 
+# Performance Metrics:
+# Root Mean Squared Error: 75.78
+# R-squared Score: 0.96
+# Mean Absolute Error: 42.72
+# Median Absolute Error: 20.36
+# Cross-validation RMSE: 291.99 (+/- 707.92)
 
 #Create the parameter grid using sklearn's ParameterGrid
 # grid = ParameterGrid(param_grid)
