@@ -29,7 +29,7 @@ dropped_data = pd.read_csv(dropped_data_path)
 
 # # Generate a profiling report with ydata-profiling
 # profile = ProfileReport(dropped_data, title="Flight Data Profiling Report", explorative=True)
-# profile.to_file("clf_flight_data_profile_report.html")
+# profile.to_file("Visualization/clf_flight_data_profile_report.html")
 
 # Define which columns to use for encoding and scaling
 categorical_cols = ["MONTH", "DAY", "DAY_OF_WEEK", "ORIGIN_AIRPORT", "DESTINATION_AIRPORT"]
