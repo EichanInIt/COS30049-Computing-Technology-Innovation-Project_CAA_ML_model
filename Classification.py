@@ -77,7 +77,8 @@ rf_model = RandomForestClassifier(
     min_samples_split=10,
     min_samples_leaf=5,
     class_weight='balanced', 
-    random_state=108
+    random_state=108,
+    n_jobs = -1
 )
 
 # Fit the model with resampled data
@@ -94,7 +95,7 @@ print(f"Accuracy: {accuracy:.4f}")
 print(classification_report(Y_test, Y_pred, target_names=label_encoder.classes_))
 
 # Save the model using pickle
-model_filename = 'rfclassifier_model.pkl'
+model_filename = 'model/rfclassifier_model.pkl'
 with open(model_filename, 'wb') as model_file:
     pickle.dump(rf_model, model_file)
 print(f"Model saved as {model_filename}")

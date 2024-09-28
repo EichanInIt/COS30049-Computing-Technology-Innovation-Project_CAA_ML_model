@@ -27,7 +27,7 @@ The model is trained using flight data from the `flights.csv` dataset, which is 
    After running the script, a `.pkl` file named `2015-LinearRegression_FlightDelay.pkl` will be created in the `model` folder. The model is trained using a supervised Machine Learning algorithm called **Linear Regression**.
 
 ### Optional:
-You can also run the following script to experiment with different machine learning algorithms:
+You can also run the following script to experiment with different machine learning algorithms. Kindly note that the script will take a remarkably long period of time to run.
 
     python DelayTraining_Model_Decision.py
 
