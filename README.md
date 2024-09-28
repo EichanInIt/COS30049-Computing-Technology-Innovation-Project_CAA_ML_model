@@ -1,6 +1,6 @@
 # COS30049 - Computing Technology Innovation Project (CAA ML Model)
 
-## Installation
+# Installation
 
 To install all the dependencies, ensure that the required packages listed in `requirements.txt` are installed. Use the following command:
 
