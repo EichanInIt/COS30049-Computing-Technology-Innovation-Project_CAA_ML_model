@@ -40,9 +40,11 @@ The model is trained using flight fare data from the `Cleaned_Dataset.csv` datas
 ### Important Notes:
 - The dataset originally does not include the `price_aud` feature. To generate this feature, you need to uncomment the relevant code in the `RegressionForFlightFare.py` file.
 
+### Running:
 Run the following command to preprocess the dataset and train the flight fare model:
     
     python RegressionForFlightFare.py
 
-After running the script, a `.pkl` file named `rf_regressor.pkl` will be created in the `model` folder. The result is also visualized via 3 png images generated in `Visualization` named respectively `actual_vs_predicted.png`, `feature_importance.png`, `residual_plot.png`. The model is trained using a supervised Machine Learning algorithm called **RandomForestRegressor**
- 
+After running the script, a `.pkl` file named `rf_regressor.pkl` will be created in the `model` folder. The result is also visualized via 3 png images generated in `Visualization` named respectively `actual_vs_predicted.png`, `feature_importance.png`, `residual_plot.png`. The model is trained using a supervised Machine Learning algorithm called **RandomForestRegressor**.
+
+
