@@ -1,6 +1,6 @@
 # COS30049 - Computing Technology Innovation Project (CAA ML Model)
 
-# Installation
+## Installation
 
 To install all the dependencies, ensure that the required packages listed in `requirements.txt` are installed. Use the following command:
 
@@ -18,7 +18,7 @@ The model is trained using flight data from the `flights.csv` dataset, which is 
 
     python flights_data_transformation.py
 
-   This script will generate a cleaned dataset named `2015-Cleaned_flight_data.csv`, which will be saved in the `dataset` folder for use in model training.
+   This script will generate a file named `2015-Cleaned_flight_data.csv`, which will be saved in the `dataset` folder.
 
 2. To start training the model and generating the output, run the following command:
 
