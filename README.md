@@ -2,7 +2,7 @@
 
 ## Installation
 
-To install all the dependencies, ensure that the required packages listed in `requirements.txt` are installed. Use the following command:
+To install all the dependencies, all required packages listed in `requirements.txt` are installed. Use the following command:
 
     pip install -r requirements.txt
 
