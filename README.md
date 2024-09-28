@@ -26,3 +26,11 @@ After running the previous command, a pkl file will be generated in `model` fold
 
     python DelayTraining_Model_Decision.py
 
+## Flight Fare Model Training
+
+## Flight Fare Model Training
+
+The model is trained using flight fare data from the `Cleaned_Dataset.csv` dataset, which is located in the `dataset` folder.
+
+### Important Notes:
+- The dataset originally does not include the `price_aud` feature. To generate this feature, you need to uncomment the relevant code in the `RegressionForFlightFare.py` file.
