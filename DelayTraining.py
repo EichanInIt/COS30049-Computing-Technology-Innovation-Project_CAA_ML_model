@@ -49,7 +49,7 @@ y = final_data["ARRIVAL_DELAY"]  # Target
 X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=108)
 
 # Initialize the Linear Regression model
-model = LinearRegression()
+model = LinearRegression(n_jobs = -1)
 
 # Measure start time for training
 train_start_time = time.time()

@@ -32,7 +32,7 @@ for column in label_columns:
         data[column] = le.fit_transform(data[column])
 
 # Verify data types to ensure all columns are numeric
-print(data.dtypes)
+#print(data.dtypes)
 
 # Prepare features (X) and target (Y)
 X = data.drop(['price_aud', 'price', 'flight'], axis=1)
@@ -48,7 +48,8 @@ model = RandomForestRegressor(
     min_samples_split=5,
     min_samples_leaf=1,
     max_depth=10,             
-    random_state=108
+    random_state=108,
+    n_jobs = -1
 )
 
 # Train the model

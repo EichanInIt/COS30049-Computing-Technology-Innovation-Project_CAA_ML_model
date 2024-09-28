@@ -8,23 +8,30 @@ To install all the dependencies, ensure that the required packages listed in `re
 
 Note: Ensure that you are in the correct directory when running this command to avoid any path-related issues.
 
-## Delay Training Model Training
+## Delay Training Model
 
-The model is trained using flight data from the `flights.csv` dataset, located in the `dataset` folder. Follow the following instruction to transform and train the model.
+The model is trained using flight data from the `flights.csv` dataset, which is located in the `dataset` folder. Follow the steps below to preprocess the data and train the model.
 
-Run the following command to preprocess and clean the data
+### Steps:
+
+1. Run the following command to preprocess and clean the data:
 
     python flights_data_transformation.py
 
-After running the script, a cleaned dataset named `2015-Cleaned_flight_data.csv` will be generated and saved in the dataset folder for use in model training.
+   This script will generate a cleaned dataset named `2015-Cleaned_flight_data.csv`, which will be saved in the `dataset` folder for use in model training.
 
-Run the following command to start training and generating model. 
+2. To start training the model and generating the output, run the following command:
 
     python DelayTraining.py
 
-After running the previous command, a pkl file will be generated in `model` folder, called `2015-LinearRegression_FlightDelay.pkl` with the. The model is trained using a type of supervised Machine Learning Algorithm called Linear Regression. Optionally, the `DelayTraining_Model_Decision.py` can also be executed to display multiple ML algorithm attempt.
+   After running the script, a `.pkl` file named `2015-LinearRegression_FlightDelay.pkl` will be created in the `model` folder. The model is trained using a supervised Machine Learning algorithm called **Linear Regression**.
+
+### Optional:
+You can also run the following script to experiment with different machine learning algorithms:
 
     python DelayTraining_Model_Decision.py
+
+This script will display results from multiple machine learning algorithm attempts.
 
 ## Flight Fare Model Training
 
@@ -36,3 +43,5 @@ The model is trained using flight fare data from the `Cleaned_Dataset.csv` datas
 Run the following command to preprocess the dataset and train the flight fare model:
  
     python RegressionForFlightFare.py
+
+After running the command, the model is
