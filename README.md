@@ -1,17 +1,19 @@
-# COS30049-Computing-Technology-Innovation-Project_CAA_ML_model
- 
-# Installation
+# COS30049 - Computing Technology Innovation Project (CAA ML Model)
 
-All the dependencies and packages are listed in requirements.txt. Simply run the following to install
+## Installation
+
+To install all the dependencies, ensure that the required packages listed in `requirements.txt` are installed. Use the following command:
 
     pip install -r requirements.txt
 
+Note: Ensure that you are in the correct directory when running this command to avoid any path-related issues.
+
 # Delay Training Model Training
 
-Note: Please make sure that running the repository directory is right so no directory problems occur.
-
-The provided flight.csv dataset is located in the dataset file, run the following commands in order
+The model is trained using flight data from the 'flight.csv', located in the 'dataset' folder. Follow the following instruction to transform and train the model.
 
     python flights_data_transformation.py
+
+
 
 
