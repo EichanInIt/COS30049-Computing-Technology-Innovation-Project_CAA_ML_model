@@ -10,10 +10,19 @@ Note: Ensure that you are in the correct directory when running this command to 
 
 ## Delay Training Model Training
 
-The model is trained using flight data from the 'flight.csv', located in the 'dataset' folder. Follow the following instruction to transform and train the model.
+The model is trained using flight data from the `flights.csv` dataset, located in the `dataset` folder. Follow the following instruction to transform and train the model.
+
+Run the following command to preprocess and clean the data
 
     python flights_data_transformation.py
 
+After running the script, a cleaned dataset named `2015-Cleaned_flight_data.csv` will be generated and saved in the dataset folder for use in model training.
 
+Run the following command to start training and generating model. 
 
+    python DelayTraining.py
+
+After running the previous command, a pkl file will be generated in `model` folder, called `2015-LinearRegression_FlightDelay.pkl` with the. The model is trained using a type of supervised Machine Learning Algorithm called Linear Regression. Optionally, the `DelayTraining_Model_Decision.py` can also be executed to display multiple ML algorithm attempt.
+
+    python DelayTraining_Model_Decision.py
 
