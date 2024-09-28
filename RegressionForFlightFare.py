@@ -55,7 +55,7 @@ model = RandomForestRegressor(
 model.fit(X_train, Y_train)
 
 # Save the trained model using pickle
-with open('rf_regressor.pkl', 'wb') as file:
+with open('model/rf_regressor.pkl', 'wb') as file:
     pickle.dump(model, file)
 
 # Make predictions on the test set
@@ -99,7 +99,7 @@ plt.xlabel("Actual Price (AUD)")
 plt.ylabel("Predicted Price (AUD)")
 plt.title("Actual vs Predicted Prices")
 plt.tight_layout()
-plt.savefig("actual_vs_predicted.png")
+plt.savefig("Visualization/actual_vs_predicted.png")
 plt.close()
 
 # Plot: Feature Importance (Top 10)
@@ -107,7 +107,7 @@ plt.figure(figsize=(12, 6))
 sns.barplot(x='importance', y='feature', data=feature_importance.head(10))
 plt.title("Top 10 Most Important Features")
 plt.tight_layout()
-plt.savefig("feature_importance.png")
+plt.savefig("Visualization/feature_importance.png")
 plt.close()
 
 # Plot: Residuals
@@ -119,7 +119,7 @@ plt.xlabel("Predicted Price (AUD)")
 plt.ylabel("Residuals")
 plt.title("Residual Plot")
 plt.tight_layout()
-plt.savefig("residual_plot.png")
+plt.savefig("Visualization/residual_plot.png")
 plt.close()
 
 print("\nVisualization plots have been saved as PNG files.")
