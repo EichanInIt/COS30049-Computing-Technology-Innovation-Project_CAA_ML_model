@@ -8,7 +8,7 @@ To install all the dependencies, ensure that the required packages listed in `re
 
 Note: Ensure that you are in the correct directory when running this command to avoid any path-related issues.
 
-# Delay Training Model Training
+## Delay Training Model Training
 
 The model is trained using flight data from the 'flight.csv', located in the 'dataset' folder. Follow the following instruction to transform and train the model.
 
