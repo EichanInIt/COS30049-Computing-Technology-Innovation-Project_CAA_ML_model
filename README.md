@@ -12,7 +12,7 @@ Note: Ensure that you are in the correct directory when running this command to 
 
 The model is trained using flight data from the `flights.csv` dataset, which is located in the `dataset` folder. Follow the steps below to preprocess the data and train the model.
 
-### Steps:
+### Data Processing Steps:
 
 1. Run the following command to preprocess and clean the data:
     
@@ -41,7 +41,7 @@ This script will display results from multiple machine learning algorithm attemp
 
 The model is trained using flight fare data from the `Cleaned_Dataset.csv` dataset, which is located in the `dataset` folder.
 
-### Important Notes:
+### Important Notes for Data Processing:
 - The dataset originally does not include the `price_aud` feature. To generate this feature, you need to uncomment the relevant code in the `RegressionForFlightFare.py` file.
 
 ### Running:
@@ -56,7 +56,7 @@ After running the script, a `.pkl` file named `rf_regressor.pkl` will be created
 
 The model is trained using flight fare data from the `2015-Cleaned_flight_data_with_delay_rating.csv` dataset, which is located in the `dataset` folder.
 
-### Important Notes:
+### Important Notes for Data Processing:
 
 The `2015-Cleaned_flight_data_with_delay_rating.csv` dataset is originally processed from `2015-Cleaned_flight_data.csv`, which is preprocessed from `flights.csv` dataset. To generate the required dataset, you need to uncomment the relevant code in the `Classification.py` file.
 
