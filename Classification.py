@@ -2,10 +2,11 @@ import pandas as pd
 import numpy as np
 import os
 from sklearn.preprocessing import LabelEncoder, StandardScaler
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report
 from imblearn.under_sampling import RandomUnderSampler
+from imblearn.over_sampling import SMOTE
 from collections import Counter
 import pickle
 from ydata_profiling import ProfileReport
@@ -33,7 +34,7 @@ dropped_data = pd.read_csv(dropped_data_path)
 
 # Define which columns to use for encoding and scaling
 categorical_cols = ["MONTH", "DAY", "DAY_OF_WEEK", "ORIGIN_AIRPORT", "DESTINATION_AIRPORT"]
-numerical_cols = ["SCHEDULED_DEPARTURE", "DEPARTURE_DELAY", "TAXI_OUT", "WHEELS_OFF", "AIR_TIME", "DISTANCE", "WHEELS_ON", "TAXI_IN", "SCHEDULED_ARRIVAL", "ARRIVAL_DELAY"]
+numerical_cols = ["SCHEDULED_DEPARTURE", "DEPARTURE_DELAY","AIR_TIME", "DISTANCE","SCHEDULED_ARRIVAL", "ARRIVAL_DELAY", "WHEELS_ON", "TAXI_IN", "TAXI_OUT", "WHEELS_OFF"]
 
 # Apply StandardScaler to numerical columns
 scaler = StandardScaler()
@@ -41,13 +42,14 @@ numerical_scaled = pd.DataFrame(scaler.fit_transform(dropped_data[numerical_cols
 
 # Apply LabelEncoder to categorical columns
 label_encoders = {}
+categorical_encoded = pd.DataFrame()
 for col in categorical_cols:
     le = LabelEncoder()
-    dropped_data[col] = le.fit_transform(dropped_data[col])
+    categorical_encoded[col] = le.fit_transform(dropped_data[col])
     label_encoders[col] = le
 
 # Combine scaled numerical data and encoded categorical data
-final_data = pd.concat([numerical_scaled, dropped_data[categorical_cols], dropped_data["DELAY_RATING"].reset_index(drop=True)], axis=1)
+final_data = pd.concat([numerical_scaled, categorical_encoded, dropped_data["DELAY_RATING"].reset_index(drop=True)], axis=1)
 
 # Label encode the 'DELAY_RATING' column
 label_encoder = LabelEncoder()
@@ -63,16 +65,22 @@ X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_
 # Check the original class distribution
 print(f"Original class distribution: {Counter(Y_train)}")
 
-# Apply undersampling to reduce the "On Time" class (class 1) to match class 0's size
-undersample = RandomUnderSampler(sampling_strategy={1: 101688}, random_state=108)
-X_train_resampled, Y_train_resampled = undersample.fit_resample(X_train, Y_train)
+# Apply SMOTE to handle class imbalance
+smote = SMOTE(sampling_strategy='auto', random_state=108)
+X_train_resampled, Y_train_resampled = smote.fit_resample(X_train, Y_train)
+
+# # Check the new class distribution after resampling
+# print(f"Resampled class distribution: {Counter(Y_train_resampled)}")
+# # Apply undersampling to reduce the "On Time" class (class 1) to match class 0's size
+# undersample = RandomUnderSampler(sampling_strategy={1: 101688}, random_state=108)
+# X_train_resampled, Y_train_resampled = undersample.fit_resample(X_train, Y_train)
 
 # Check the new class distribution after resampling
 print(f"Resampled class distribution: {Counter(Y_train_resampled)}")
 
 # Implement RandomForestClassifier with optimized parameters
 rf_model = RandomForestClassifier(
-    n_estimators=100,
+    n_estimators=150,
     max_depth=10,
     min_samples_split=10,
     min_samples_leaf=5,
@@ -80,6 +88,10 @@ rf_model = RandomForestClassifier(
     random_state=108,
     n_jobs = -1
 )
+# Perform cross-validation to evaluate the model
+cv_scores = cross_val_score(rf_model, X_train_resampled, Y_train_resampled, cv=5, scoring='accuracy')
+print(f"Cross-validation accuracy scores: {cv_scores}")
+print(f"Mean cross-validation accuracy: {cv_scores.mean():.4f}")
 
 # Fit the model with resampled data
 rf_model.fit(X_train_resampled, Y_train_resampled)

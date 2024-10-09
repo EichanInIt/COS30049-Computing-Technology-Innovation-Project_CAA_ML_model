@@ -31,7 +31,7 @@ column_to_drop = ["AIR_SYSTEM_DELAY", "SECURITY_DELAY", "AIRLINE_DELAY", "LATE_A
 dropped_flight_data = dropped_flight_data.drop(columns= column_to_drop)
 
 # Randomly drop half of the rows
-dropped_flight_data = dropped_flight_data.sample(frac=0.3, random_state=108).reset_index(drop=True)
+dropped_flight_data = dropped_flight_data.sample(frac=0.05, random_state=108).reset_index(drop=True)
 
 # Save the updated dataframe
 dropped_flight_data.to_csv("dataset/2015-Cleaned_flight_data.csv", index=False)

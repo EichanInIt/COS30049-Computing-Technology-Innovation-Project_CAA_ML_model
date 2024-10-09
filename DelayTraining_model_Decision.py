@@ -55,7 +55,7 @@ start_time = time.time()
 
 # Define which columns to use for encoding and scaling
 categorical_cols = ["MONTH", "DAY", "DAY_OF_WEEK", "ORIGIN_AIRPORT", "DESTINATION_AIRPORT"]
-numerical_cols = ["SCHEDULED_DEPARTURE", "DEPARTURE_DELAY", "TAXI_OUT", "WHEELS_OFF", "AIR_TIME", "DISTANCE", "WHEELS_ON", "TAXI_IN", "SCHEDULED_ARRIVAL", "ARRIVAL_DELAY"]
+numerical_cols = ["SCHEDULED_DEPARTURE", "DEPARTURE_DELAY", "AIR_TIME", "DISTANCE", "SCHEDULED_ARRIVAL", "ARRIVAL_DELAY"] #"TAXI_OUT", "WHEELS_OFF", "WHEELS_ON", "TAXI_IN"]
 
 # Apply StandardScaler to numerical columns
 scaler = StandardScaler()
