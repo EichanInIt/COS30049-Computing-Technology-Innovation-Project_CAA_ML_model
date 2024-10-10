@@ -92,17 +92,6 @@ print(f"Tuned model with categorical support saved as {model_filename}")
 
 #Use GridsearchCV
 # Best Parameters: {'colsample_bytree': 1.0, 'learning_rate': 0.2, 'max_depth': 15, 'min_child_weight': 1, 'n_estimators': 200, 'subsample': 0.8}
-# Accuracy: 0.8445
-#               precision    recall  f1-score   support
-
-#            0       0.85      0.91      0.88     36310
-#            1       0.82      0.73      0.77     20830
-
-#     accuracy                           0.84     57140
-#    macro avg       0.84      0.82      0.83     57140
-# weighted avg       0.84      0.84      0.84     57140
-
-# Tuned model saved as model/xgboost_tuned_model.pkl
 
 #Result
 # Original class distribution: Counter({0: 144891, 1: 83669})
