@@ -76,10 +76,10 @@ print(f"Mean Absolute Error (MAE): {mae:.2f}")
 print(f"Mean Squared Error (MSE): {mse:.2f}")
 
 # Save the trained model to a pickle file
-with open("model/2015-LGBMRegressor_FlightDelay.pkl", "wb") as f:
+with open("model/lgbm_regressor_delay.pkl", "wb") as f:
     pickle.dump(pipeline, f)
 
-print("\nModel saved as '2015-LGBMRegressor_FlightDelay.pkl'")
+print("\nModel saved as 'lgbm_regressor_delay.pkl'")
 
 # Measure total script execution time
 end_time = time.time()
