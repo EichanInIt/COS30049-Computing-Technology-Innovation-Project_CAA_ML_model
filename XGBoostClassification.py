@@ -11,7 +11,7 @@ from xgboost import XGBClassifier
 from ydata_profiling import ProfileReport
 
 # Load the data
-dropped_data_path = os.path.join("COS30049-Computing-Technology-Innovation-Project_CAA_ML_model", "dataset", "2015-Cleaned_flight_data_with_delay_rating.csv")
+dropped_data_path = os.path.join("dataset", "2015-Cleaned_flight_data_with_delay_rating.csv")
 dropped_data = pd.read_csv(dropped_data_path)
 
 # Define which columns to use for encoding and scaling
