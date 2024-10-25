@@ -8,34 +8,31 @@ from imblearn.over_sampling import SMOTE
 from collections import Counter
 import pickle
 from xgboost import XGBClassifier
-from ydata_profiling import ProfileReport
 
 # Load the data
-dropped_data_path = os.path.join("dataset", "2015-Cleaned_flight_data_with_delay_rating.csv")
-dropped_data = pd.read_csv(dropped_data_path)
+data_path = os.path.join("dataset", "2015-Cleaned_flight_data_with_delay_rating.csv")
+flight_data = pd.read_csv(data_path)
 
 # Define which columns to use for encoding and scaling
 categorical_cols = ["MONTH", "DAY", "DAY_OF_WEEK", "ORIGIN_AIRPORT", "DESTINATION_AIRPORT"]
-numerical_cols = ["SCHEDULED_DEPARTURE", "DEPARTURE_DELAY", "AIR_TIME", "DISTANCE", "SCHEDULED_ARRIVAL", "ARRIVAL_DELAY"]
+numerical_cols = ["SCHEDULED_DEPARTURE", "DEPARTURE_DELAY", "AIR_TIME", "DISTANCE", "SCHEDULED_ARRIVAL"]
 
-# Apply StandardScaler to numerical columns
+# Initialize label encoders and scaler
+label_encoders = {}
 scaler = StandardScaler()
-numerical_scaled = pd.DataFrame(scaler.fit_transform(dropped_data[numerical_cols]), columns=numerical_cols)
 
 # Apply LabelEncoder to categorical columns
-label_encoders = {}
-categorical_encoded = pd.DataFrame()
 for col in categorical_cols:
     le = LabelEncoder()
-    categorical_encoded[col] = le.fit_transform(dropped_data[col])
-    label_encoders[col] = le
+    flight_data[col] = le.fit_transform(flight_data[col].astype(str))  # Ensure all values are strings
+    label_encoders[col] = le  # Store encoder for future use
 
-# Combine scaled numerical data and encoded categorical data
-final_data = pd.concat([numerical_scaled, categorical_encoded, dropped_data["DELAY_RATING"].reset_index(drop=True)], axis=1)
+# Apply StandardScaler to numerical columns
+flight_data[numerical_cols] = scaler.fit_transform(flight_data[numerical_cols])
 
-# Use the 'DELAY_RATING' column directly as the target
-X = final_data.drop(columns=["DELAY_RATING", "ARRIVAL_DELAY"])  # Features
-Y = final_data["DELAY_RATING"].astype(int)  # Target (ensure it's integer for classification)
+# Combine the encoded and scaled features for the model
+X = flight_data[categorical_cols + numerical_cols]  # Use only relevant columns for features
+Y = flight_data["DELAY_RATING"].astype(int)  # Target (converted to integer)
 
 # Split the data into training and testing sets
 X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=108)
@@ -53,16 +50,16 @@ print(f"Resampled class distribution: {Counter(Y_train_resampled)}")
 # Calculate the scale_pos_weight for handling imbalance in XGBoost
 scale_pos_weight = Counter(Y_train_resampled)[0] / Counter(Y_train_resampled)[1]
 
-# Implement the tuned XGBoost Classifier with native categorical support
+# Implement the tuned XGBoost Classifier
 xgb_model = XGBClassifier(
     objective='binary:logistic',
     scale_pos_weight=scale_pos_weight,
     random_state=108,
     eval_metric='logloss',
     n_jobs=-1,
-    tree_method='hist',  
-    enable_categorical=True,  
-    colsample_bytree=1.0,  
+    tree_method='hist',
+    enable_categorical=False,  # Already encoded, no need for native support
+    colsample_bytree=1.0,
     learning_rate=0.2,
     max_depth=15,
     min_child_weight=1,
@@ -83,12 +80,22 @@ print(f"Accuracy: {accuracy:.4f}")
 # Detailed classification report (Precision, Recall, F1-score)
 print(classification_report(Y_test, Y_pred))
 
-# Save the tuned model using pickle
-model_filename = 'model/xgboost_tuned_model_with_categorical.pkl'
+# Save the model to a pickle file
+model_filename = 'model/xgboost_tuned_model.pkl'
 os.makedirs(os.path.dirname(model_filename), exist_ok=True)
 with open(model_filename, 'wb') as model_file:
     pickle.dump(xgb_model, model_file)
-print(f"Tuned model with categorical support saved as {model_filename}")
+print(f"Tuned model saved as {model_filename}")
+
+# Save the preprocessing objects (encoders and scaler) to a pickle file
+preprocessor = {
+    "label_encoders": label_encoders,
+    "scaler": scaler
+}
+
+with open('preprocessor/preprocessorfordelay-classify.pkl', 'wb') as f:
+    pickle.dump(preprocessor, f)
+print(f"Preprocessor saved as 'preprocessorfordelay-classify.pkl'")
 
 #Use GridsearchCV
 # Best Parameters: {'colsample_bytree': 1.0, 'learning_rate': 0.2, 'max_depth': 15, 'min_child_weight': 1, 'n_estimators': 200, 'subsample': 0.8}
