@@ -6,6 +6,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 import lightgbm as lbm
+import joblib
 
 # Load the data
 data_path = os.path.join("dataset", "2015-Cleaned_flight_data.csv")
